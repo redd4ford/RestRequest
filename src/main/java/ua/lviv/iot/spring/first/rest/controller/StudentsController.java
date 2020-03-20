@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import ua.lviv.iot.spring.first.rest.model.Student;
 
 @RequestMapping("/students")
@@ -37,10 +37,6 @@ public class StudentsController {
 		return students.get(studentId);
 	}
 
-//    @RequestMapping(method = { RequestMethod.GET, RequestMethod.PUT }, path = "/smartest")
-//    public Student getSmartestStudent() {
-//        return new Student("tapas", "karantino");
-//    }
 	@PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
 	public Student createStudent(final @RequestBody Student student) {
 		System.out.println(student);
