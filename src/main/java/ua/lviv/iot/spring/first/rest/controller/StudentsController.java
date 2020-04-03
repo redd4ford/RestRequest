@@ -43,12 +43,13 @@ public class StudentsController {
 
 	@PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
 	public Student createStudent(final @RequestBody Student student) {
-		//System.out.println(student);
-		System.out.println(studentService.createStudent(student));
-		student.setId(idCounter.incrementAndGet());
-		students.put(student.getId(), student);
+		// System.out.println(student);
+		// System.out.println(studentService.createStudent(student));
+		// student.setId(idCounter.incrementAndGet());
+		// students.put(student.getId(), student);
 
-		return student;
+		// return student;
+		return studentService.createStudent(student);
 	}
 
 	@DeleteMapping(path = "/{id}")
@@ -56,22 +57,21 @@ public class StudentsController {
 		HttpStatus status = students.remove(studentId) == null ? HttpStatus.NOT_FOUND : HttpStatus.OK;
 		return ResponseEntity.status(status).build();
 	}
-	
+
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<Student> updateStudent(final @PathVariable("id") Integer studentId, final @RequestBody Student student)
-	{
+	public ResponseEntity<Student> updateStudent(final @PathVariable("id") Integer studentId,
+			final @RequestBody Student student) {
 		student.setId(studentId);
 		HttpStatus status;
-		if(students.containsKey(studentId)) {
+		if (students.containsKey(studentId)) {
 			students.put(studentId, student);
-			status=HttpStatus.OK;
+			status = HttpStatus.OK;
 			return ResponseEntity.status(status).build();
-		}
-		else {
+		} else {
 			status = HttpStatus.NOT_FOUND;
 			return ResponseEntity.status(status).build();
 		}
-			
+
 	}
 
 }
