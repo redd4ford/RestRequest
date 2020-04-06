@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ua.lviv.iot.spring.first.business.StudentService;
@@ -29,10 +32,13 @@ public class StudentsController {
 	private AtomicInteger idCounter = new AtomicInteger();
 	@Autowired
 	private StudentService studentService;
-
+	
 	@GetMapping
-	public List<Student> getStudents() {
-		return new LinkedList<Student>(students.values());
+	public List<Student> getStudents(final @RequestParam(name="firstName", required = false) String firstName) {
+		if (firstName == null) {
+		return studentService.findAll();
+	}
+		return studentService.getAllByFirstName(firstName);
 	}
 
 	@GetMapping(path = "/{id}")
@@ -43,11 +49,10 @@ public class StudentsController {
 
 	@PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
 	public Student createStudent(final @RequestBody Student student) {
-		// System.out.println(student);
-		// System.out.println(studentService.createStudent(student));
-		// student.setId(idCounter.incrementAndGet());
+		 //System.out.println(student);
+		 //System.out.println(studentService.createStudent(student));
+		 //student.setId(idCounter.incrementAndGet());
 		// students.put(student.getId(), student);
-
 		// return student;
 		return studentService.createStudent(student);
 	}
